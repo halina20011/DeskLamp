@@ -1,0 +1,9 @@
+Code/sdkconfig
+Code/sdkconfig.old
+Code/build
+Code/config.clangd
+DeskLampCircuit/fp-info-cache
+DeskLampCircuit/generate.sh
+DeskLampCircuit/DeskLampCircuit-backups
+DeskLampCircuit/Output
+*.lck

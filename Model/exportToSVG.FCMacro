@@ -1,0 +1,65 @@
+import TechDraw
+import importSVG
+import os
+import json
+
+doc = App.ActiveDocument
+
+docFilePath = App.ActiveDocument.FileName;
+dirPath = os.path.dirname(docFilePath);
+fileName = "orientation.json";
+exportFolder = os.path.join(dirPath, "Model/Export");
+print(f"dir path: {dirPath}");
+print(fileName);
+jsonFile = os.path.join(dirPath, fileName);
+
+print(jsonFile)
+
+if(not os.path.exists(jsonFile)):
+    print("creating");
+    with open(jsonFile, "w") as file:
+        json.dump({}, file);
+
+def read():
+    with open(jsonFile, "r") as file:
+        return json.load(file);
+
+js = read();
+print(js);
+
+def export(obj):
+    shp = obj.Shape;
+    d = [1,0,0];
+
+    key = obj.Label
+    if(key in js):
+        v = js[key];
+    else:
+        v = d;
+    
+    #l = TechDraw.projectEx(shp)
+    #a = 0;
+    #for i in l:
+    #    p = Part.show(i);
+    #    print(p/)
+    #    p.Label = f"{a}";
+    #    a += 1;
+
+
+    r = TechDraw.projectEx(shp, App.Vector(v[0], v[1], v[2]));
+    print(len(r));
+    # 1 5
+    shape = Part.show(r[5]);
+    shape.Label = f"{obj.Label}Shape";
+    js[obj.Label] = v;
+    path = os.path.join(exportFolder, f"{obj.Label}.svg");
+    importSVG.export([shape], path);
+    print(f"exported {path}");
+
+for obj in doc.Objects:
+    if(obj.isDerivedFrom("PartDesign::Body")):
+        export(obj);
+        print(obj.Name);
+
+with open(jsonFile, "w") as file:
+        json.dump(js, file);
