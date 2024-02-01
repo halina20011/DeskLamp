@@ -6,4 +6,5 @@ DeskLampCircuit/fp-info-cache
 DeskLampCircuit/generate.sh
 DeskLampCircuit/DeskLampCircuit-backups
 DeskLampCircuit/Output
+Model/*.FCBak
 *.lck
